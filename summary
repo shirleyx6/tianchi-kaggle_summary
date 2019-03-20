@@ -17,3 +17,13 @@ def check_missing_data(df):
 # 判断是否包含缺失值
 print(check_missing_data(train))
 
+# 找出相关程度
+plt.figure(figsize=(20, 16))  # 指定绘图对象宽度和高度
+colnm = data_train1.columns.tolist()  # 列表头
+mcorr = data_train1[colnm].corr(method="spearman")  # 相关系数矩阵，即给出了任意两个变量之间的相关系数
+mask = np.zeros_like(mcorr, dtype=np.bool)  # 构造与mcorr同维数矩阵 为bool型
+mask[np.triu_indices_from(mask)] = True  # 角分线右侧为True
+cmap = sns.diverging_palette(220, 10, as_cmap=True)  # 返回matplotlib colormap对象
+g = sns.heatmap(mcorr, mask=mask, cmap=cmap, square=True, annot=True, fmt='0.2f')  # 热力图（看两两相似度）
+plt.show()
+
